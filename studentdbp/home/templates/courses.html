@@ -72,6 +72,15 @@
           </a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/teachers/">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">receipt_long</i>
+            </div>
+            <span class="nav-link-text ms-1">Teachers</span>
+          </a>
+        </li>
+
 
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
@@ -158,6 +167,17 @@
               <div class="text-end pt-1">
                 <a class="btn bg-gradient-dark mb-0" href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Courses</a>
+                <div class="row">
+                    
+                  <form class="form-inline my-2 my-lg-0" action="/searchc/" >
+                    <div class="col-lg-4">
+                    <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
+                  </div>
+                  <div class="col-lg-6">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+ </div>                 </form>search courses
+ 
+                  </div>
               </div>
             </div>
 
@@ -188,11 +208,16 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                         Comment</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Registered Date</th>
+                        Duration</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                         Action</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      {% for t in course_obj %}
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
@@ -200,43 +225,31 @@
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <a href="Courses_details.html" type="button"
-                              class="btn btn-outline-primary btn-sm mb-0">Python</a>
+                              class="btn btn-outline-primary btn-sm mb-0">{{t.course}}</a>
                           </div>
                         </div>
                       </td>
                       <td class="align-middle text-sm">
-                        <span class="text-xs font-weight-bold">35k</span>
+                        <span class="text-xs font-weight-bold">{{t.fees}}</span>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold">It is 3 months course</span>
+                        <span class="text-xs font-weight-bold">{{t.comment}}</span>
                       </td>
                       <td class="text-center text-sm">
-                        <span class="text-xs font-weight-bold"> 12 NOV 7:20 PM </span>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="{% static '/img/small-logos/logo-asana.svg' %}" class="avatar avatar-sm me-3" alt="xd">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <a href="Courses_details.html" type="button"
-                              class="btn btn-outline-primary btn-sm mb-0">React</a>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="align-middle text-sm">
-                        <span class="text-xs font-weight-bold">35k</span>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="text-xs font-weight-bold">It is 6 months course</span>
+                        <span class="text-xs font-weight-bold">{{t.duration}} </span>
                       </td>
                       <td class="text-center text-sm">
-                        <span class="text-xs font-weight-bold"> 12 NOV 7:20 PM </span>
+                        {% comment %} <a href="/update/{{t.id}}" type="button">Update</a> {% endcomment %}
+                        <a class="btn bg-gradient-primary mb-0" href="/updatec/{{t.id}}"><i
+                          class="material-icons text-sm"></i>Update</a>
+                      </td>
+                      <td class="text-center text-sm">
+                        {% comment %} <a href="{% url 'delete' t.pk %}" type="button">Delete</a> {% endcomment %}
+                        <a class="btn bg-gradient-secondary mb-0" href="{% url 'delete' t.pk %}"><i
+                          class="material-icons text-sm"></i>Delete</a>
                       </td>
                     </tr>
+                    {% endfor %}
 
                   </tbody>
                 </table>
@@ -248,8 +261,7 @@
 
 
 
-
-      <!-- Modal for adding courses -->
+<!-- Modal for adding courses -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
